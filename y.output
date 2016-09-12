@@ -1,0 +1,85 @@
+
+state 0
+	$accept: .commands $end 
+	commands: .    (1)
+
+	.  reduce 1 (src line 20)
+
+	commands  goto 1
+
+state 1
+	$accept:  commands.$end 
+	commands:  commands.command 
+
+	$end  accept
+	TOKHEAT  shift 5
+	TOKTARGET  shift 6
+	.  error
+
+	command  goto 2
+	heat_switch  goto 3
+	target_set  goto 4
+
+state 2
+	commands:  commands command.    (2)
+
+	.  reduce 2 (src line 21)
+
+
+state 3
+	command:  heat_switch.    (3)
+
+	.  reduce 3 (src line 23)
+
+
+state 4
+	command:  target_set.    (4)
+
+	.  reduce 4 (src line 25)
+
+
+state 5
+	heat_switch:  TOKHEAT.STATE 
+
+	STATE  shift 7
+	.  error
+
+
+state 6
+	target_set:  TOKTARGET.TOKTEMPERATURE NUMBER 
+
+	TOKTEMPERATURE  shift 8
+	.  error
+
+
+state 7
+	heat_switch:  TOKHEAT STATE.    (5)
+
+	.  reduce 5 (src line 28)
+
+
+state 8
+	target_set:  TOKTARGET TOKTEMPERATURE.NUMBER 
+
+	NUMBER  shift 9
+	.  error
+
+
+state 9
+	target_set:  TOKTARGET TOKTEMPERATURE NUMBER.    (6)
+
+	.  reduce 6 (src line 34)
+
+
+8 terminals, 5 nonterminals
+7 grammar rules, 10/2000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+54 working sets used
+memory: parser 3/30000
+0 extra closures
+5 shift entries, 1 exceptions
+4 goto entries
+0 entries saved by goto default
+Optimizer space used: output 9/30000
+9 table entries, 0 zero
+maximum spread: 8, maximum offset: 8
