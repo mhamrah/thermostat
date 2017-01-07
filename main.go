@@ -6,8 +6,11 @@ import "fmt"
 //go:generate go tool yacc thermostat.y
 
 func main() {
-	lex := newLexer([]byte(`target temperature 5 heat on
-	target temperature 10
+	lex := newLexer([]byte(`
+		target temperature 5
+		heat on
+		target temperature 10
+		heat off
 	`))
 	e := yyParse(lex)
 	fmt.Println(e)
